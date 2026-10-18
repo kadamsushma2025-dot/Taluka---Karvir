@@ -224,7 +224,6 @@ html, body, #map {
 <div class="north-arrow">
     <img src="https://wikimedia.org" alt="North Arrow">
 </div>
-
 <!-- Map Mount Point -->
 <div id="map"></div>
 <div id="map"></div>>
@@ -246,72 +245,4 @@ html, body, #map {
         <script src="./resources/Autolinker.min.js"></script>
         <script src="./resources/qgis2web.js"></script>
     </body>
-        // ==========================================
-// 1. ADD SCALE BAR CONTROLS (Bottom-Left)
-// ==========================================
-L.control.scale({
-    position: 'bottomleft',
-    metric: true,        // Enables meters/kilometers
-    imperial: false,     // Disables feet/miles for regional standards
-    maxWidth: 160        // Balances visual weight on screen
-}).addTo(map);
-
-// ==========================================
-// 2. ADD CUSTOM INDEX / LEGEND (Bottom-Left)
-// ==========================================
-var legend = L.control({ position: 'bottomleft' });
-
-legend.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'custom-legend');
-    
-    // Title of the Index box
-    div.innerHTML += '<h4>Index / सूची</h4>';
-    
-    // Layer categories based on your orange/red thematic color palette
-    div.innerHTML += '<div class="legend-color-box" style="background: #b30000;"></div> High Density Value<br>';
-    div.innerHTML += '<div class="legend-color-box" style="background: #e34a33;"></div> Medium-High Value<br>';
-    div.innerHTML += '<div class="legend-color-box" style="background: #fdbb84;"></div> Medium-Low Value<br>';
-    div.innerHTML += '<div class="legend-color-box" style="background: #fdd49e;"></div> Low Density Value<br>';
-    
-    return div;
-};
-// ==========================================
-// 1. FORCED METRIC SCALE CONTROL (Bottom-Left)
-// ==========================================
-var scaleControl = L.control.scale({
-    position: 'bottomleft',
-    metric: true,        // Force Metric KM system
-    imperial: false,     // Remove alternative measurements
-    maxWidth: 140
-});
-scaleControl.addTo(map);
-
-// Move scale bar to front layer stack explicitly
-scaleControl.getContainer().style.zIndex = "2500";
-
-// ==========================================
-// 2. STYLED BOTTOM-LEFT INDEX / LEGEND
-// ==========================================
-var legend = L.control({ position: 'bottomleft' });
-
-legend.onAdd = function (map) {
-    var div = L.DomUtil.create('div', 'custom-legend');
-    
-    div.innerHTML += '<h4>Index / सूची</h4>';
-    
-    // Custom color map configuration to suit the layout layer palette
-    div.innerHTML += '<div class="legend-color-box" style="background: #a63603;"></div> High Density Value<br>';
-    div.innerHTML += '<div class="legend-color-box" style="background: #e6550d;"></div> Medium-High Value<br>';
-    div.innerHTML += '<div class="legend-color-box" style="background: #fdae6b;"></div> Medium-Low Value<br>';
-    div.innerHTML += '<div class="legend-color-box" style="background: #fee6ce;"></div> Low Density Value<br>';
-    
-    return div;
-};
-
-legend.addTo(map);
-
-// Force the legend element stack configuration over base map components
-legend.getContainer().style.zIndex = "2500";
-legend.addTo(map);
-</html>
  
