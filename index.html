@@ -205,7 +205,59 @@ html, body, #map {
             width: 932px;
             height: 665px;
         }
-        </style>
+        </* 1. PROFESSIONAL CENTER TITLE */
+.map-title {
+    position: absolute;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 3000 !important; /* Forces it over the layer selector panel */
+    background: rgba(255, 255, 255, 0.95);
+    padding: 10px 24px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    border: 1px solid #ccc;
+    font-family: Arial, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+    color: #2c3e50;
+    text-align: center;
+    pointer-events: none;
+}
+
+/* 2. REPOSITIONED VECTOR NORTH ARROW */
+.custom-north-arrow {
+    position: absolute;
+    top: 85px; /* Pushed down slightly so it doesn't collide with your top controls */
+    right: 20px;
+    z-index: 3000 !important;
+    background: rgba(255, 255, 255, 0.95);
+    padding: 8px;
+    border-radius: 4px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    border: 1px solid #ccc;
+}
+.custom-north-arrow img {
+    width: 45px;
+    height: 45px;
+    display: block;
+}
+
+/* 3. FORCED STYLE FOR LEAFLET SCALE CONTROL */
+.leaflet-control-scale {
+    z-index: 3000 !important;
+    margin-bottom: 25px !important;
+    margin-left: 20px !important;
+}
+.leaflet-control-scale-line {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 2px solid #333 !important;
+    border-top: none !important;
+    color: #111 !important;
+    font-weight: bold !important;
+    font-size: 11px !important;
+    padding: 2px 5px !important;
+}>
         <title></title>
     </head>
     <<!-- 1. Centered Floating Map Title -->
@@ -245,4 +297,24 @@ html, body, #map {
         <script src="./resources/Autolinker.min.js"></script>
         <script src="./resources/qgis2web.js"></script>
     </body>
- 
+ // Wait briefly for the qgis2web main routine to finalize base rendering
+setTimeout(function() {
+    
+    // Initialize the native Metric Scale Control
+    var mapScale = L.control.scale({
+        position: 'bottomleft',
+        metric: true,        // Renders standard Kilometers/Meters units
+        imperial: false,     // Keeps layout clean by removing feet/miles
+        maxWidth: 150
+    });
+    
+    // Inject the component onto the active map object instance
+    mapScale.addTo(map);
+    
+    // Explicit structural layer stack correction to bypass framework limits
+    var scaleContainer = mapScale.getContainer();
+    if (scaleContainer) {
+        scaleContainer.style.zIndex = "3000";
+    }
+    
+}, 600);
